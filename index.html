@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fibonacci Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        input[type="number"] {
+            padding: 8px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Fibonacci Calculator</h2>
+    <input type="number" id="position" placeholder="Enter position in Fibonacci sequence">
+    <button onclick="calculateFibonacci()">Calculate</button>
+    <div id="result"></div>
+
+    <script>
+        function calculateFibonacci() {
+            const positionInput = document.getElementById('position');
+            const position = parseInt(positionInput.value);
+
+            // Function to calculate Fibonacci numbers with Algarodham constraint
+            function fibonacciWithAlgarodham(n, memo = {}) {
+                if (n <= 0) return 0;
+                if (n === 1) return 1;
+
+                // Applying the Algarodham constraint
+                if (n > 0 && n <= 1000) {
+                    if (memo[n]) {
+                        return memo[n];
+                    } else {
+                        memo[n] = fibonacciWithAlgarodham(n - 1, memo) + fibonacciWithAlgarodham(n - 2, memo);
+                        return memo[n];
+                    }
+                } else {
+                    return undefined;
+                }
+            }
+
+            const resultDiv = document.getElementById('result');
+
+            // Calculate Fibonacci number and display result
+            const fibonacciNumber = fibonacciWithAlgarodham(position);
+            if (fibonacciNumber !== undefined) {
+                resultDiv.innerText = `The ${position}th Fibonacci number with Algarodham constraint is: ${fibonacciNumber}`;
+            } else {
+                resultDiv.innerText = "Algarodham constraint exceeded (n > 1000). Please provide a smaller number.";
+            }
+        }
+
+    </script>
+</body>
+
+</html>
